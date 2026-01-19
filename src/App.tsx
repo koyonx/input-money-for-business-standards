@@ -1,62 +1,40 @@
 import { useState } from 'react'
+import SimpleInputMode from './components/SimpleInputMode'
+import BusinessNumberMode from './components/BusinessNumberMode'
+
+type Mode = 'simple' | 'business'
 
 function App() {
-  const [text, setText] = useState('')
-  const [savedItems, setSavedItems] = useState<string[]>([])
-
-  const handleSave = () => {
-    if (text.trim()) {
-      setSavedItems([text, ...savedItems])
-      setText('')
-    }
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSave()
-    }
-  }
+  const [mode, setMode] = useState<Mode>('simple')
 
   return (
     <div style={{ padding: '20px' }}>
       <h1>React Input</h1>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <input
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="テキストを入力..."
-          style={{ padding: '8px', fontSize: '16px', width: '300px' }}
-        />
-        <button
-          onClick={handleSave}
-          style={{ padding: '8px 16px', fontSize: '16px', cursor: 'pointer' }}
-        >
-          完了
-        </button>
+
+      <div style={{ marginBottom: '20px' }}>
+        <label style={{ marginRight: '16px' }}>
+          <input
+            type="radio"
+            name="mode"
+            value="simple"
+            checked={mode === 'simple'}
+            onChange={() => setMode('simple')}
+          />
+          {' '}単純入力モード
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="mode"
+            value="business"
+            checked={mode === 'business'}
+            onChange={() => setMode('business')}
+          />
+          {' '}ビジネス標準数字モード
+        </label>
       </div>
 
-      {savedItems.length > 0 && (
-        <div style={{ marginTop: '20px' }}>
-          <h2>保存済み</h2>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {savedItems.map((item, index) => (
-              <li
-                key={index}
-                style={{
-                  padding: '8px',
-                  marginBottom: '4px',
-                  backgroundColor: '#f0f0f0',
-                  borderRadius: '4px',
-                }}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {mode === 'simple' ? <SimpleInputMode /> : <BusinessNumberMode />}
     </div>
   )
 }
