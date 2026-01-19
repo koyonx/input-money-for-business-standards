@@ -17,8 +17,7 @@ const normalizeToHalfWidth = (value: string): string => {
 
 // 数値に変換する関数
 const parseNumber = (value: string): number => {
-  const cleanedValue = value.replace(/,/g, '')
-  return Number(cleanedValue)
+  return Number(value)
 }
 
 // 数値を日本のビジネス標準フォーマット（カンマ区切り）で表示
